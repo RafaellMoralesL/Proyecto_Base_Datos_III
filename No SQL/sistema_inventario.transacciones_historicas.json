@@ -1,0 +1,11 @@
+[{
+  "_id": {
+    "$oid": "69ac6782c9ce78f4dd7c2907"
+  },
+  "codigo_producto": "P001",
+  "cantidad": 10,
+  "fecha": {
+    "$date": "2025-12-15T00:00:00.000Z"
+  },
+  "valor_total": 500
+}]

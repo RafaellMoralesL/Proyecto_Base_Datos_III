@@ -1,0 +1,11 @@
+[{
+  "_id": {
+    "$oid": "69ac6782c9ce78f4dd7c2908"
+  },
+  "codigo_producto": "P002",
+  "cambio": "Stock ajustado",
+  "fecha": {
+    "$date": "2026-01-10T00:00:00.000Z"
+  },
+  "usuario": "operador1"
+}]

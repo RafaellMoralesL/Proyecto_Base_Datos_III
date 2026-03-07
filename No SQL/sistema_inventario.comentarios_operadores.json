@@ -1,0 +1,11 @@
+[{
+  "_id": {
+    "$oid": "69ac6782c9ce78f4dd7c2909"
+  },
+  "codigo_producto": "P003",
+  "comentario": "Producto con baja rotación",
+  "fecha": {
+    "$date": "2026-02-20T00:00:00.000Z"
+  },
+  "operador": "María"
+}]
