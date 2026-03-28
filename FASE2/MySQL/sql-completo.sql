@@ -1,4 +1,3 @@
-
 -- SISTEMA DE INVENTARIO - FASE 2 BD
 
 DROP DATABASE IF EXISTS sistema_inventario;
@@ -76,14 +75,13 @@ INSERT INTO producto (codigo_serie, nombre, descripcion, precio, id_categoria) V
 -- TABLA: INVENTARIO
 DROP TABLE IF EXISTS inventario;
 CREATE TABLE inventario (
-    id_inventario INT AUTO_INCREMENT PRIMARY KEY,
+    id_inventario INT AUTO_INCREMENT,
     id_producto INT NOT NULL,
     id_almacen INT NOT NULL,
     stock INT NOT NULL DEFAULT 0,
     ubicacion_interna VARCHAR(80),
-    UNIQUE KEY idx_producto_almacen (id_producto, id_almacen),
-    FOREIGN KEY (id_producto) REFERENCES producto(id_producto),
-    FOREIGN KEY (id_almacen) REFERENCES almacen(id_almacen)
+    PRIMARY KEY (id_inventario, id_almacen),
+    UNIQUE KEY idx_producto_almacen (id_producto, id_almacen)
 );
 
 INSERT INTO inventario (id_producto, id_almacen, stock, ubicacion_interna) VALUES
@@ -459,21 +457,30 @@ DROP USER IF EXISTS 'operador'@'localhost';
 CREATE USER 'admin'@'localhost' IDENTIFIED BY 'admin123';
 CREATE USER 'operador'@'localhost' IDENTIFIED BY 'operador123';
 
+GRANT sys_admin TO  'admin'@'localhost';
+GRANT sys_operador TO  'operador'@'localhost';
+
 SET DEFAULT ROLE sys_admin TO 'admin'@'localhost';
 SET DEFAULT ROLE sys_operador TO 'operador'@'localhost';
+
 
 
 -- Particiones
 -- Horizontal
 -- inventario por id_almacen - Divide la tabla inventario en particiones separadas por almacen. - Cada almacen tiene su propia particion fisica.
 
-ALTER TABLE inventario
+
+
+-- Se particiona la tabla
+ALTER TABLE inventario 
+
 PARTITION BY LIST (id_almacen) (
     PARTITION p_almacen_1 VALUES IN (1),
     PARTITION p_almacen_2 VALUES IN (2),
     PARTITION p_almacen_3 VALUES IN (3),
     PARTITION p_almacen_general VALUES IN (4, 5, 6, 7, 8, 9, 10)
 );
+
 
 
 -- Vertical
@@ -502,7 +509,7 @@ DELIMITER ;
 
 
 -- Datos de autenticacion (SHA2-256 con salt para hashes distintos)
--- El trigger maneja el hash automáticamente al insertar
+-- El trigger maneja el hash automaticamente
 INSERT INTO empleado_auth (id_empleado, password_empleado) VALUES
 (1, 'admin123'),
 (2, 'vendedor123'),
